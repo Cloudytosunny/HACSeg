@@ -10,8 +10,8 @@ This is the official implementation of **HACSeg**, a novel hierarchical adaptive
 ## 🚀 Visualizations
 
 <p align="center">
-  <img src="https://github.com/Cloudytosunny/HACSeg/pic/HACSeg_Mink_1.gif" width="48%" />
-  <img src="https://github.com/Cloudytosunny/HACSeg/pic/HACSeg_Mink_2.gif" width="48%" />
+  <img src="https://github.com/Cloudytosunny/HACSeg/blob/main/pic/HACSeg_Mink_1.gif" width="48%" />
+  <img src="https://github.com/Cloudytosunny/HACSeg/blob/main/pic/HACSeg_Mink_2.gif" width="48%" />
 </p>
 
 ---
