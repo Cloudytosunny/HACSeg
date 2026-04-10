@@ -47,14 +47,99 @@ To demonstrate the effectiveness of **HACSeg**, we present our performance on th
 HACSeg focuses on the intrinsic geometric properties of LiDAR point clouds to achieve robust panoptic segmentation without the need for extensive training. 
 
 
+
 ## 🛠️ News
+- **[2026/04]**: 🚀 Released the unified Decoupled-PQ evaluation suite! The scripts now support both IPQ and S_PQ metrics across SemanticKITTI and nuScenes datasets.
 - **[2026/02]**: Code cleanup is in progress.
-- **[Coming Soon]**: We will release the full source code, environment setup guide, and evaluation scripts on SemanticKITTI / nuScenes datasets.
+- **[Coming Soon]**: We will release the full HACSeg source code, including the core clustering algorithm and a comprehensive environment setup guide.
 
 ## 📅 Roadmap
-- [ ] Release core clustering algorithm (C++/Python)
+- [x] Release unified evaluation scripts for Decoupled PQ (IPQ & S_PQ) on SemanticKITTI / nuScenes.
+- [ ] Release core hierarchical adaptive clustering algorithm (C++/Python).
+- [ ] Provide comprehensive environment setup and running instructions.
+- [ ] Release full panoptic segmentation pipeline and inference examples.
 
 ---
+
+## 📊 Evaluation & Metrics
+
+HACSeg includes a unified evaluation suite to facilitate deep-dive analysis of panoptic segmentation performance. These scripts support both **SemanticKITTI** and **nuScenes** datasets and implement decoupled metrics to isolate instance extraction quality from semantic labeling quality.
+
+### ⚙️ Environment Setup
+
+The evaluation suite requires the following dependencies:
+
+```bash
+# Install basic requirements
+pip install numpy pyyaml tqdm
+
+# Required for nuScenes evaluation
+pip install nuscenes-devkit
+```
+
+### 📈 Decoupled PQ Evaluation
+
+We provide two core scripts to analyze the performance of HACSeg by decoupling different aspects of the panoptic task:
+
+#### 1. Instance-Decoupled PQ (IPQ)
+The `unified_evaluate_ins_decoupled_pq.py` script computes the **IPQ**, which measures the theoretical upper bound of instance extraction by assuming perfect semantic alignment. This metric is crucial for validating the geometric robustness of our **Hierarchical Adaptive Clustering** independently from the semantic backbone.
+
+**SemanticKITTI Usage:**
+```bash
+python unified_evaluate_ins_decoupled_pq.py \
+    --dataset semantickitti \
+    --pred-dir /path/to/predictions \
+    --gt-dir /path/to/labels \
+    --output ./results_ipq_sem
+```
+
+**nuScenes Usage:**
+```bash
+python unified_evaluate_ins_decoupled_pq.py \
+    --dataset nuscenes \
+    --result-path /path/to/panoptic_results \
+    --dataroot /data/sets/nuscenes \
+    --version v1.0-trainval \
+    --eval-set val \
+    --output ./results_ipq_nus
+```
+
+#### 2. Semantic-Decoupled PQ (S_PQ)
+The `unified_evaluate_semantic_decoupled_pq.py` script evaluates the **S_PQ** ($S\_PQ = PQ_{pre} / PQ_{csi}$). It provides insight into how much the final panoptic quality is constrained by semantic labeling errors versus instance clustering errors.
+
+**SemanticKITTI Usage:**
+```bash
+python unified_evaluate_semantic_decoupled_pq.py \
+    --dataset semantickitti \
+    --pred-dir /path/to/predictions \
+    --gt-dir /path/to/labels \
+    --output ./results_spq_sem
+```
+
+**nuScenes Usage:**
+```bash
+python unified_evaluate_semantic_decoupled_pq.py \
+    --dataset nuscenes \
+    --result-path /path/to/panoptic_results \
+    --dataroot /data/sets/nuscenes \
+    --version v1.0-trainval \
+    --eval-set val \
+    --output ./results_spq_nus
+```
+
+### 📑 Metric Descriptions
+
+Our evaluation framework provides a comprehensive set of metrics:
+
+* **PQ (Panoptic Quality):** Standard metric for panoptic segmentation.
+* **IPQ (Instance-centric Panoptic Quality):** Measures instance extraction performance.
+* **S_PQ (Saturation PQ):** Ratio of actual PQ to the CSI-GT (theoretical bound).
+* **PQ† (PQ Dagger):** A variation averaging PQ for "Things" and IoU for "Stuff".
+
+> **Interactive Reports:** Both scripts automatically generate a `scores.txt` (YAML format) and a `detailed_results.html` file. The HTML report features an interactive, sortable table for efficient per-class metric analysis.
+
+
+
 
 ## 📧 Contact
 **Wang Shaohu** (Southeast University) - [wangsh@seu.edu.cn]
