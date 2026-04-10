@@ -79,10 +79,10 @@ pip install nuscenes-devkit
 
 ### 📈 Decoupled PQ Evaluation
 
-We provide two core scripts to analyze the performance of HACSeg by decoupling different aspects of the panoptic task:
+We provide two core scripts to analyze the performance of methods by decoupling different aspects of the panoptic task:
 
-#### 1. Instance-Decoupled PQ (IPQ)
-The `unified_evaluate_ins_decoupled_pq.py` script computes the **IPQ**, which measures the theoretical upper bound of instance extraction by assuming perfect semantic alignment. This metric is crucial for validating the geometric robustness of our **Hierarchical Adaptive Clustering** independently from the semantic backbone.
+#### 1. Instance-centric PQ (IPQ)
+The `unified_evaluate_ins_decoupled_pq.py` script computes the **IPQ**, which measures the theoretical upper bound of instance extraction by assuming perfect semantic alignment. 
 
 **SemanticKITTI Usage:**
 ```bash
@@ -104,8 +104,8 @@ python unified_evaluate_ins_decoupled_pq.py \
     --output ./results_ipq_nus
 ```
 
-#### 2. Semantic-Decoupled PQ (S_PQ)
-The `unified_evaluate_semantic_decoupled_pq.py` script evaluates the **S_PQ** ($S\_PQ = PQ_{pre} / PQ_{csi}$). It provides insight into how much the final panoptic quality is constrained by semantic labeling errors versus instance clustering errors.
+#### 2. Saturation PQ (S_PQ)
+The `unified_evaluate_semantic_decoupled_pq.py` script evaluates the **S_PQ** ($S\_{PQ} = PQ_{pre} / PQ_{csi}$). It provides insight into how much the final panoptic quality is constrained by instance errors.
 
 **SemanticKITTI Usage:**
 ```bash
